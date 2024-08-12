@@ -1,5 +1,11 @@
+import TodoList from './TodoList.jsx'
+
 const App = () => {
-  return
+  return (
+    <main className='main-center'>
+      <TodoList/>
+    </main>
+  );
 };
 
 export default App;
