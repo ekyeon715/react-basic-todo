@@ -74,10 +74,17 @@ const TodoList = () => {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            <p>
-              {todo.text} - {String(todo.completed)}
+            <p
+              style={{
+                textDecoration: todo.completed ? "line-through" : "none",
+              }}
+            >
+              {todo.text}
+              {todo.completed ? <p>완료됨</p> : <p>진행중</p>}
             </p>
-            <button onClick={() => handleUpdate(todo.id)}>완료</button>
+            <button onClick={() => handleUpdate(todo.id)}>
+              {todo.completed ? "취소" : "완료"}
+            </button>
             <button onClick={() => handleDelete(todo.id)}>삭제</button>
           </li>
         ))}
