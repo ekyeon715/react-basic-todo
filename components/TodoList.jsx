@@ -49,6 +49,17 @@ const TodoList = () => {
     setTodos(updateTodos);
   };
 
+  const handleDelete = (id) => {
+    const deletedtodos = todos.filter((todo) => {
+      if (todo.id === id) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    setTodos(deletedtodos);
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -67,6 +78,7 @@ const TodoList = () => {
               {todo.text} - {String(todo.completed)}
             </p>
             <button onClick={() => handleUpdate(todo.id)}>완료</button>
+            <button onClick={() => handleDelete(todo.id)}>삭제</button>
           </li>
         ))}
       </ul>
