@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const TodoForm = () => {
+const TodoForm = ({ setTodos, todos }) => {
   const [newTodo, setNewTodo] = useState("");
 
   const handleSubmit = (e) => {
