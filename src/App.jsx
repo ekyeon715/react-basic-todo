@@ -5,7 +5,6 @@ import TodoDashboard from "../components/todo/TodoDashboard";
 const App = () => {
   return (
     <RootLayout>
-      <TodoDashboard />
       <TodoContainer />
     </RootLayout>
   );
