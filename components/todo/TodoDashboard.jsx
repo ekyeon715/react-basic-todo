@@ -24,8 +24,8 @@ const TodoDashboard = ({ all = 0, completed = 0, pending = 0 }) => {
             <Ellipsis />
           </div>
           <p>
-            4 <br />
-            {completed}
+            {completed} <br />
+            Completed
           </p>
         </DashboardCard>
         <DashboardCard flex="1" color="#242424">
@@ -34,8 +34,8 @@ const TodoDashboard = ({ all = 0, completed = 0, pending = 0 }) => {
             <Ellipsis />
           </div>
           <p>
-            2 <br />
-            {pending}
+            {pending} <br />
+            Pending
           </p>
         </DashboardCard>
       </DashboardCardList>
@@ -48,6 +48,7 @@ export default TodoDashboard;
 const DashboardSection = styled.section`
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   gap: 1rem;
 `;
 
@@ -65,7 +66,7 @@ const DashboardCardList = styled.div`
 `;
 
 const DashboardCard = styled.div`
-  background-color: ${(props) => props.color};
+  background-color: ${({ color }) => color};
   padding: 1rem;
   border-radius: 1rem;
   height: calc((640px / 4));

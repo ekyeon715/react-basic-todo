@@ -27,6 +27,7 @@ export default TodoList;
 const TaskSection = styled.section`
   display: flex;
   flex-direction: column;
+  /* flex-wrap: wrap; */
   gap: 1rem;
 `;
 
