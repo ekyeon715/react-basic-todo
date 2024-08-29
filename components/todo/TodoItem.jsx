@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { TodoContext } from "./TodoContainer";
+import TodoContext from "../TodoContext";
 
 const TodoItem = ({ todo }) => {
   const { handleUpdate, handleDelete } = useContext(TodoContext);

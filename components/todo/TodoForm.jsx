@@ -1,27 +1,8 @@
-import React, { useContext, useState } from "react";
-import { TodoContext } from "./TodoContainer";
+import React, { useContext } from "react";
+import TodoContext from "../TodoContext";
 
 const TodoForm = () => {
-  const { todos, setTodos } = useContext(TodoContext);
-  const [newTodo, setNewTodo] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!newTodo.trim()) {
-      return;
-    }
-
-    setTodos([
-      { id: crypto.randomUUID(), text: newTodo, completed: false },
-      ...todos,
-    ]);
-    setNewTodo("");
-  };
-
-  const handleInputChange = (event) => {
-    setNewTodo(event.target.value);
-  };
+  const { handleSubmit, handleInputChange, newTodo } = useContext(TodoContext);
 
   return (
     <form onSubmit={handleSubmit}>
