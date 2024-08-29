@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { TodoContext } from "./TodoContainer";
 
-const TodoForm = ({ setTodos, todos }) => {
+const TodoForm = () => {
+  const { todos, setTodos } = useContext(TodoContext);
   const [newTodo, setNewTodo] = useState("");
 
   const handleSubmit = (e) => {
