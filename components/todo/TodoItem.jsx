@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import TodoContext from "../TodoContext";
+import { Link } from "react-router-dom";
 
 const TodoItem = ({ todo }) => {
   const { handleUpdate, handleDelete } = useContext(TodoContext);
@@ -12,14 +13,14 @@ const TodoItem = ({ todo }) => {
             textDecoration: todo.completed ? "line-through" : "none",
           }}
         >
-          {todo.text} -{" "}
+          <TaskLink to={`/${todo.id}`}>{todo.text}</TaskLink> -{" "}
           {todo.completed ? <span>완료됨</span> : <span>진행중</span>}
         </p>
       </TaskItemContent>
 
       <TaskItemActions>
         <TaskItemActionButton
-          onClick={() => handleUpdate(todo.id)}
+          onClick={() => handleUpdate(todo.id, !todo.completed)}
           color="#582be7"
         >
           {todo.completed ? "취소" : "완료"}
@@ -69,5 +70,11 @@ const TaskItemActionButton = styled.button`
 
   &:hover {
     opacity: 80%;
+  }
+`;
+
+const TaskLink = styled(Link)`
+  &:hover {
+    text-decoration: underline;
   }
 `;

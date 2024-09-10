@@ -1,40 +1,55 @@
 import { ClipboardCheck, Ellipsis, Monitor, Video } from "lucide-react";
-import React from "react";
+import { useContext } from "react";
 import styled from "styled-components";
+import TodoContext from "../TodoContext";
+import { Link, useSearchParams } from "react-router-dom";
 
-const TodoDashboard = ({ all = 0, completed = 0, pending = 0 }) => {
+const TodoDashboard = () => {
+  const { todos, completedTodos, pendingTodos } = useContext(TodoContext);
+  const [searchParams] = useSearchParams();
+  const filter = searchParams.get("filter");
   return (
     <DashboardSection>
       <DashboardHeader>
         <h1>Dashboard</h1>
       </DashboardHeader>
       <DashboardCardList>
-        <DashboardCard flex="2" color="#e7582b">
+        <DashboardCard flex="2" color="#e7582b" to={"/"} $highlight={!filter}>
           <div>
             <ClipboardCheck />
             <Ellipsis />
           </div>
           <p>
-            {all} <br /> All tasks
+            {todos.length} <br /> All tasks
           </p>
         </DashboardCard>
-        <DashboardCard flex="1" color="#582be7">
+        <DashboardCard
+          flex="1"
+          color="#582be7"
+          to={"?filter=completed"}
+          $highlight={filter === "completed"}
+        >
           <div>
             <Monitor />
             <Ellipsis />
           </div>
           <p>
-            {completed} <br />
+            {completedTodos.length} <br />
             Completed
           </p>
         </DashboardCard>
-        <DashboardCard flex="1" color="#242424">
+        <DashboardCard
+          flex="1"
+          color="#242424"
+          to={"?filter=pending"}
+          $highlight={filter === "pending"}
+        >
           <div>
             <Video />
             <Ellipsis />
           </div>
           <p>
-            {pending} <br />
+            {pendingTodos.length} <br />
             Pending
           </p>
         </DashboardCard>
@@ -59,14 +74,14 @@ const DashboardHeader = styled.div`
   }
 `;
 
-const DashboardCardList = styled.div`
+const DashboardCardList = styled(Link)`
   display: flex;
   flex-direction: row;
   gap: 8px;
 `;
 
 const DashboardCard = styled.div`
-  background-color: ${({ color }) => color};
+  background-color: ${({ $color }) => $color};
   padding: 1rem;
   border-radius: 1rem;
   height: calc((640px / 4));
@@ -77,7 +92,9 @@ const DashboardCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  flex: ${(props) => props.flex};
+  flex: ${({ $flex }) => $flex};
+
+  text-decoration: ${({ $highlight }) => ($highlight ? "underline" : "none")};
 
   div {
     display: flex;
