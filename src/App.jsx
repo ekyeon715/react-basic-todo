@@ -1,10 +1,11 @@
-import TodoContainer from "../components/todo/TodoContainer";
+import { Router } from "lucide-react";
+import TodoProvider from "../components/TodoProvider";
 
 const App = () => {
   return (
-    <main className="main-center">
-      <TodoContainer />
-    </main>
+    <TodoProvider>
+      <Router />
+    </TodoProvider>
   );
 };
 
