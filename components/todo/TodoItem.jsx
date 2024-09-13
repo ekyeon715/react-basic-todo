@@ -1,10 +1,31 @@
-import { useContext } from "react";
 import styled from "styled-components";
-import TodoContext from "../TodoContext";
-import { Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteTodo, updateTodo } from "../../src/api/todoClient";
 
 const TodoItem = ({ todo }) => {
-  const { handleUpdate, handleDelete } = useContext(TodoContext);
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const { mutateAsync: handleDelete, isPending } = useMutation({
+    mutationFn: (id) => deleteTodo(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["todos"],
+      });
+    },
+  });
+
+  const { mutate: handleUpdate } = useMutation({
+    mutationFn: ({ id, completed }) => updateTodo(id, completed),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["todos"],
+      });
+    },
+  });
+
   return (
     <TaskItem key={todo.id}>
       <TaskItemContent>
@@ -20,16 +41,24 @@ const TodoItem = ({ todo }) => {
 
       <TaskItemActions>
         <TaskItemActionButton
-          onClick={() => handleUpdate(todo.id, !todo.completed)}
+          onClick={() =>
+            handleUpdate({
+              id: todo.id,
+              completed: !todo.completed,
+            })
+          }
           color="#582be7"
         >
           {todo.completed ? "취소" : "완료"}
         </TaskItemActionButton>
         <TaskItemActionButton
-          onClick={() => handleDelete(todo.id)}
+          onClick={async () => {
+            await handleDelete(todo.id);
+            navigate("/");
+          }}
           color="#f05656"
         >
-          삭제
+          {isPending ? "삭제 중" : "삭제"}
         </TaskItemActionButton>
       </TaskItemActions>
     </TaskItem>

@@ -1,11 +1,11 @@
 import { Router } from "lucide-react";
-import TodoProvider from "../components/TodoProvider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const App = () => {
   return (
-    <TodoProvider>
+    <QueryClientProvider client={QueryClient}>
       <Router />
-    </TodoProvider>
+    </QueryClientProvider>
   );
 };
 

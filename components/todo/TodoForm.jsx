@@ -1,14 +1,33 @@
-import { useContext } from "react";
-import TodoContext from "../TodoContext";
+import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postTodo } from "../../src/api/todoClient";
 
 const TodoForm = () => {
-  const { handleSubmit, handleInputChange, newTodo } = useContext(TodoContext);
+  const [newTodo, setNewTodo] = useState("");
+  const queryClieent = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: (todo) => postTodo(todo),
+    onSuccess: () => {
+      queryClieent.invalidateQueries({
+        queryKey: ["todos"],
+      });
+    },
+  });
+
+  const newTodoObj = {
+    text: newTodo,
+    completed: false,
+  };
+
+  mutate(newTodoObj);
+
+  setNewTodo("");
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <input
         type="text"
-        onChange={handleInputChange}
         value={newTodo}
         placeholder="todo 내용을 입력해주세요"
       />
