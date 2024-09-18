@@ -1,30 +1,16 @@
 import styled from "styled-components";
 
 import { Link, useNavigate } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteTodo, updateTodo } from "../../src/api/todoClient";
+import {
+  useDeleteTodoMutation,
+  useUpdateTodoMutation,
+} from "../../src/hooks/useTodoMutation";
 
 const TodoItem = ({ todo }) => {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { mutateAsync: handleDelete, isPending } = useMutation({
-    mutationFn: (id) => deleteTodo(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["todos"],
-      });
-    },
-  });
-
-  const { mutate: handleUpdate } = useMutation({
-    mutationFn: ({ id, completed }) => updateTodo(id, completed),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["todos"],
-      });
-    },
-  });
+  const { mutateAsync: handleDelete, isPending } = useDeleteTodoMutation();
+  const { mutate: handleUpdate } = useUpdateTodoMutation();
 
   return (
     <TaskItem key={todo.id}>
