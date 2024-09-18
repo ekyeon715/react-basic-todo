@@ -8,22 +8,20 @@ const TodoDashboard = () => {
   const [searchParams] = useSearchParams();
   const filter = searchParams.get("filter");
 
-  const {
-    data: todos,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: allTodos } = useQuery({
     queryKey: ["todos"],
     queryFn: getTodos,
   });
 
-  if (isLoading) {
-    return <DashboardSection>Loading...</DashboardSection>;
-  }
+  const { data: completedTodos } = useQuery({
+    queryKey: ["todos", "completed"],
+    queryFn: () => getTodos("completed"),
+  });
 
-  if (error) {
-    return <DashboardSection>Error: {error.message}</DashboardSection>;
-  }
+  const { data: pendingTodos } = useQuery({
+    queryKey: ["todos", "pending"],
+    queryFn: () => getTodos("pending"),
+  });
 
   return (
     <DashboardSection>
@@ -37,7 +35,7 @@ const TodoDashboard = () => {
             <Ellipsis />
           </div>
           <p>
-            {todos.length} <br /> All tasks
+            {allTodos?.length} <br /> All tasks
           </p>
         </DashboardCard>
         <DashboardCard
@@ -51,7 +49,7 @@ const TodoDashboard = () => {
             <Ellipsis />
           </div>
           <p>
-            {todos.length} <br />
+            {completedTodos?.length} <br />
             Completed
           </p>
         </DashboardCard>
@@ -66,7 +64,7 @@ const TodoDashboard = () => {
             <Ellipsis />
           </div>
           <p>
-            {todos.length} <br />
+            {pendingTodos?.length} <br />
             Pending
           </p>
         </DashboardCard>

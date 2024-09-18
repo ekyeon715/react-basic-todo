@@ -4,7 +4,17 @@ export const todoClient = axios.create({
   baseURL: "http://localhost:3000/todos",
 });
 
-export const getTodos = async () => {
+export const getTodos = async (filter) => {
+  const searchParams = new URLSearchParams();
+
+  if (filter === "completed") {
+    searchParams.append("completed", true);
+  }
+
+  if (filter === "pending") {
+    searchParams.append("completed", false);
+  }
+
   const { data } = await todoClient.get("/");
 
   return data;
